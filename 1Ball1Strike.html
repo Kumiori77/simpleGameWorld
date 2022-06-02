@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Game World</title>
+
+    <style>
+        @import url(style.css);
+
+        body{
+            background: url("imgs/1Ball1Strike/background.png") center center/1000px ;
+        }
+        section{
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            
+        }
+        form{
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 35em;
+            /* border: 1px solid black;  */
+        }
+        input{
+            font-size: 3em;
+        }
+        button{
+            width: 15em;
+            height: 2em;
+            font-size: 20px;
+        }
+        div > #button{
+            font-size: 1.8em;
+            width: 2.3em;
+            height: 1.2em;
+        }
+        #screen{
+            overflow: auto;
+            border: 1px solid black;
+            width: 20em;
+            height: 15em;
+            font-size: 1.5em;
+        }
+        p{
+            margin: 0%;
+        }
+    </style>
+
+    <script src="lib.js"></script>
+
+    <script>
+        let cnt = 1; // 도전 횟수
+        // let cntScreen = document.getElementById('cnt');
+        // cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!" 
+
+
+        let result // 결과 표시
+        let screen = document.getElementById('screen'); // 결과 표시하는 창
+        let right = [0, 0, 0]; // 정답 배열
+        let s = 0, b = 0; // 볼, 스트라이크 카운트 변수
+
+        function init(){ // 정답 배열 초기화 함수
+            right[0] = Math.floor(Math.random()*10); 
+            while (true){
+                let n = Math.floor(Math.random()*10);
+                if (n != right[0]){
+                    right[1] = n
+                    break
+                }
+            }
+            while (true){
+                let n = Math.floor(Math.random()*10);
+                if (n != right[0] && n != right[1]){
+                    right[2] = n
+                    break
+                }
+            }
+            let cntScreen = document.getElementById('cnt');
+            cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!" 
+        }
+
+        function check(){ // 정답 체크 함수
+            let answer = document.getElementById('answer');
+            let n1 = answer.value[0];
+            let n2 = answer.value[1];
+            let n3 = answer.value[2];
+
+            //입력 체크
+            if (isNaN(answer.value)){
+                alert("숫자를 입력하시오!");
+                return;
+            }
+            if (answer.value.length < 3){
+                alert("숫자를 3개 입력하시오");
+                return;
+            }
+            // 체크 초기화
+            s = 0;
+            b = 0;
+            // 스트라이크 체크
+            if (parseInt(n1) == right[0]){
+                s++;
+            }
+            if (parseInt(n2) == right[1]){
+                s++;
+            }
+            if (parseInt(n3) == right[2]){
+                s++;
+            }
+            // 볼 체크
+            if (parseInt(n1) != right[0] && parseInt(n1) == right[1] || parseInt(n1) == right[2]){
+                b++;
+            }
+            if (parseInt(n2) != right[1] && parseInt(n2) == right[0] || parseInt(n2) == right[2]){
+                b++;
+            }
+            if (parseInt(n3) != right[2] && parseInt(n3) == right[1] || parseInt(n3) == right[0]){
+                b++;
+            }
+
+            if (s == 3){
+                let text = "정답입니다!!!\n"
+                text += cnt + "번 만에 성공!!";
+                alert(text);
+                for (let i = 0; i < cnt; i++){
+                    screen = document.getElementById('screen');
+                    let child = screen.lastChild;
+                    screen.removeChild(child);
+                }
+                cnt = 1;
+                init();
+                return;
+            }
+
+            // 스크린에 결과 표시
+            let text = cnt + "번째 : "; // 결과를 저장하는 변수
+            for (i = 0; i < 3; i++){
+                text += answer.value[i]
+            }
+            text += " => " + s + "Strike, " + b + "Ball";
+
+            screen = document.getElementById('screen');
+            result = document.createElement('p')
+            result.innerHTML = text;
+            screen.append(result);
+
+            // 카운트 증가
+            cnt++;
+            let cntScreen = document.getElementById('cnt');
+            cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!";
+        }
+
+    </script>
+
+</head>
+
+<body onload="init()">
+    
+    <header>
+        <div id="title"><a href="index.html">Simple Game World</a></div>
+        <nav id="mainNav">
+            <ul id="mainMenu">
+                <li id="play1" onmouseover="menuOver(this)"><p>1인용 게임</p></li>
+                <li id="play2" onmouseover="menuOver(this)"><p>2인용 게임</p></li>
+                <li><a href="coding.html">코딩 연습</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section onmouseover="menuOut()">
+
+        <script>
+            let msg = "게임 설명\n\n";
+            msg += "1. 랜덤으로 생성된 3개의 숫자를 맞추는 게임입니다.\n";
+            msg += "2. 숫자를 입력한 후 확인 버튼을 클릭합니다.\n";
+            msg += "(엔터키를 누르면 초기화됨)\n";
+            msg += "3. 숫자만 맞으면 Ball, 위치도 맞으면 Strike로 표시됩니다.\n";
+            msg += "4. 랜덤으로 생성된 3개의 숫자를 위치까지 모두 맞추면 성공합니다.";
+            alert(msg);
+        </script>
+        
+        
+        <h1>1Ball 1Strike</h1>
+        <h3 id="cnt">3자리 숫자를 맞춰 보세요!!</h3>
+
+        <form>
+            <div>
+            <input id='answer' type="text" maxlength="3" size="5">
+            <input id="button" type="reset" value="완료" onclick="check()">
+            </div>
+
+            <div id='screen'>
+            </div>
+
+            <button onclick="init()">리셋</button>
+        </form>
+
+    </section>
+
+
+</body>
+</html>

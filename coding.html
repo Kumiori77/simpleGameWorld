@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Game World</title>
+
+    <style>
+
+        @import url(style.css);
+
+        section{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        section button{
+            padding: 1.5em;
+        }
+
+    </style>
+
+<script src="lib.js"></script>
+
+<script>
+
+    let win = null;
+
+    function showHTML(){
+        if (win == null || win.closed){
+            win = window.open("", "outWin", "width = 600, height=400");
+
+            let textArea = document.getElementById('area');
+            win.document.open();
+            win.document.write(textArea.value);
+            win.document.close();
+        }
+    }
+</script>
+
+</head>
+
+<body>
+    
+    <header>
+        <div id="title"><a href="index.html">Simple Game World</a></div>
+        <nav>
+            <ul id="mainMenu">
+                <li id="play1" onmouseover="menuOver(this)"><p>1인용 게임</p></li>
+                <li id="play2" onmouseover="menuOver(this)"><p>2인용 게임</p></li>
+                <li><a href="coding.html">코딩 연습</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section onmouseover="menuOut()">
+        
+    <h2>HTML 문서 작성기</h2>
+    <hr>
+    <p>아래의 textArea에 HTML코드를 작성한 후<br>
+    출력하기 버튼을 클릭하여 실행결과를 확인하시오</p>
+
+    <textarea id="area" cols="70" rows="30">
+&lt;head&gt;&lt;title&gt;테스트문서&lt;/title&gt;&lt;head&gt;
+&lt;body&gt;
+&lt;h1&gt;Hello World&lt;/h1&gt;
+&lt;/body&gt;   
+    </textarea>
+    <br><br>
+    <button onclick="showHTML()">문서 실행</button>
+
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+html, body {
+    padding : 0%;
+    margin: 0%;
+    background-color:azure;
+    font-family: 'Tahoma';
+    width: auto;
+    height: 100%;
+}
+
+header{
+    background-color: forestgreen;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+#title{
+    font-size: 2em;
+    padding-top: 1.2em;
+    color: aliceblue;
+    
+    
+}
+header nav{
+    width: 100%;
+    color: white;
+    font-size: 1.2em;
+}
+#mainMenu{
+    /* padding-left: 3em;
+    padding-right: 3em; */
+    display: flex;
+    flex-direction: row;
+    justify-content:space-evenly;
+    list-style: none;
+    padding: 0%;
+}
+#mainMenu p{
+    margin: 0px;
+}
+#mainMenu p:hover{
+    cursor: pointer;
+    text-shadow: 0px 0px 5px skyblue;
+}
+#mainMenu a:hover{
+    /* cursor: pointer; */
+    text-shadow: 0px 0px 5px skyblue;
+}
+a:visited{
+    color: white;
+    text-decoration: none;
+}
+a:link{
+    color: white;
+    text-decoration: none;
+}
