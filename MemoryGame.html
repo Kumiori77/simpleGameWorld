@@ -4,11 +4,86 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Game World</title>
+    <title>Memory Game</title>
 
     <style>
 
         @import url(style.css);
+
+        section{
+            padding: 0%;
+            margin: 0%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        h1{
+            font-size: 30px;
+        }
+        #billBoard{
+            width: 800px;
+            height: 80px;
+            padding: 0%;
+            margin: 0%;
+            margin-bottom: 10px;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        #billBoard div{
+            font-size: 50px;
+        }
+
+        #playGround{
+            width: 650px;
+            height: 540px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-bottom: 10px;
+
+        }
+        #row{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        #row div{
+            width: 100px;
+            height: 100px;
+            background-color: forestgreen;
+        }
+        #row div:hover{
+            box-shadow: 0px 0px 10px skyblue;
+        }
+        #explainBox{
+            position: absolute;
+            width: 800px;
+            height: 550px;
+        }
+        #explain{
+            position: absolute;
+            top:0px;
+        }
+        #P1switch{
+            position: absolute;
+            top: 400px;
+            left: 170px;
+        }
+        #P1switch:hover{
+            box-shadow: 0px 0px 30px skyblue;
+        }
+        #P2switch{
+            position: absolute;
+            top: 400px;
+            left: 480px;
+        }
+        #P2switch:hover{
+            box-shadow: 0px 0px 30px skyblue;
+        }
 
     </style>
 
@@ -33,17 +108,37 @@
         
         <h1>Memory Game</h1>
         
-        <div>
-            <div><img src="/imgs/MemoryGame/player1.png" alt="player1" width="100px"></div>
-            <div>a</div>
-            <div>a</div>
-            <div>a</div>
-            <div><img src="/imgs/MemoryGame/AI.png" alt="player2" width="100px"></div>
+        <div id="billBoard">
+            <img src="imgs/MemoryGame/player1.png" alt="player1" width="80px">
+            <div>0</div>
+            <div>:</div>
+            <div>0</div>
+            <img src="imgs/MemoryGame/AI.png" alt="player2" width="80px">
         </div>
-        <img src="/imgs/MemoryGame/AI.png" alt="?">
-        <img src="/imgs/1Ball1Strike/background.jpg" alt="??">
+        
+        <div id="playGround">
+            <script>
+                let cnt = 0;
+                for (let y = 0; y < 5; y++){
+                    document.write("<div id='row'>");
+                    for (let x = 0; x < 6; x++){
+                        document.write("<div id='" + cnt + "' onclick='clicked(this)'></div>");
+                        cnt++;
+                    }
+                    document.write("</div>");
+                }
+    
+            </script>
+        </div>
 
+        <div id="explainBox">
+        <img src="imgs/MemoryGame/explain.png" id="explain">
+        <img src="imgs/MemoryGame/1Pswitch.png" id="P1switch">
+        <img src="imgs/MemoryGame/2Pswitcn.png" id="P2switch">
+        </div>
     </section>
+
+    
 
 </body>
 </html>
