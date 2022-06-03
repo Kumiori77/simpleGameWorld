@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Game World</title>
+
+    <style>
+
+        @import url(style.css);
+
+    </style>
+
+    <script src="lib.js"></script>
+
+</head>
+
+<body>
+    
+    <header>
+        <div id="title"><a href="index.html">Simple Game World</a></div>
+        <nav id="mainNav">
+            <ul id="mainMenu">
+                <li id="play1" onmouseover="menuOver(this)"><p>1인용 게임</p></li>
+                <li id="play2" onmouseover="menuOver(this)"><p>2인용 게임</p></li>
+                <li><a href="coding.html">코딩 연습</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section onmouseover="menuOut()">
+        
+        <h1>Memory Game</h1>
+        
+        <div>
+            <div><img src="/imgs/MemoryGame/player1.png" alt="player1" width="100px"></div>
+            <div>a</div>
+            <div>a</div>
+            <div>a</div>
+            <div><img src="/imgs/MemoryGame/AI.png" alt="player2" width="100px"></div>
+        </div>
+        <img src="/imgs/MemoryGame/AI.png" alt="?">
+        <img src="/imgs/1Ball1Strike/background.jpg" alt="??">
+
+    </section>
+
+</body>
+</html>

@@ -4,8 +4,8 @@
 //메뉴 클릭하면 세부 내용 표시하기
 //메뉴의 세부 내용 배열
 
-let play1 = ["1Ball1Strike", "MemoriGame", "Othelo", "MineSweeper"];
-let play2 = ["MemoriGame", "Othelo"];
+let play1 = ["1Ball1Strike", "MemoryGame", "Othelo", "MineSweeper"];
+let play2 = ["MemoryGame", "Othelo"];
 // 메뉴 리스트 DOM 객체 생성
 let newUlP1 = document.createElement("ul");
 let newUlP2 = document.createElement("ul");

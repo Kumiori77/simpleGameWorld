@@ -32,14 +32,14 @@
             font-size: 3em;
         }
         button{
-            width: 15em;
-            height: 2em;
-            font-size: 20px;
+            width: 300px;
+            height: 50px;
+            font-size: 30px;
         }
         div > #button{
-            font-size: 1.8em;
-            width: 2.3em;
-            height: 1.2em;
+            font-size: 30px;
+            width: 75px;
+            height: 50px;
         }
         #screen{
             overflow: auto;
@@ -66,6 +66,9 @@
         let right = [0, 0, 0]; // 정답 배열
         let s = 0, b = 0; // 볼, 스트라이크 카운트 변수
 
+        // 입력창
+        
+
         function init(){ // 정답 배열 초기화 함수
             right[0] = Math.floor(Math.random()*10); 
             while (true){
@@ -84,6 +87,10 @@
             }
             let cntScreen = document.getElementById('cnt');
             cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!" 
+
+            // 입력창에 포커스
+            let answer = document.getElementById('answer');
+            answer.focus();
         }
 
         function check(){ // 정답 체크 함수
@@ -95,10 +102,12 @@
             //입력 체크
             if (isNaN(answer.value)){
                 alert("숫자를 입력하시오!");
+                answer.focus();
                 return;
             }
             if (answer.value.length < 3){
                 alert("숫자를 3개 입력하시오");
+                answer.focus();
                 return;
             }
             // 체크 초기화
@@ -155,6 +164,9 @@
             cnt++;
             let cntScreen = document.getElementById('cnt');
             cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!";
+
+            // 입력창에 포커스
+            answer.focus();
         }
 
     </script>
