@@ -13,16 +13,27 @@ for (let i = 0; i < 30; i++){
     }
 }
 
-let cntClick = 0;
-let cntGame = 0; // 턴 카운트
+let cntClick; // 클릭 카운트
+let cntGame;// 턴 카운트
+// 점수 변수
+let P1Score;
+let P2Score;
+// 점수 표시 점수
+let P1ScoreScreen;
+let P2ScoreScreen;
 
+let picked; // 카드 체크 변수
+
+// 플레이어 이미지 변수
+let P1;
+let P2;
 
 // 함수 선언
 
 // 모드 설정 함수
 function clickP(obj){
     // P2 이미지 변수
-    let P2 = document.getElementById('P2');
+    
 
     if (obj.id == 'P1switch'){ // 1인 플레이
         // 이미지 설정
@@ -42,21 +53,113 @@ function clickP(obj){
     section[0].removeChild(explainBox);
 }
 
-// 이미지 랜덤 배치 함수
+// 게임 초기화 함수
 function init(){
-    card.sort(() => Math.random() - 0.5);
+    card.sort(() => Math.random() - 0.5); // 카드 랜덤 배치
+
+    cntClick = 0; // 클릭 카운트
+    cntGame = 0; // 턴 카운트
+    // 점수 변수
+    P1Score = 0;
+    P2Score = 0;
+    // 점수 표시 변수
+    P1ScoreScreen = document.getElementById('P1Score');
+    P2ScoreScreen = document.getElementById('P2Score');
+    P1ScoreScreen.innerHTML = P1Score;
+    P2ScoreScreen.innerHTML = P2Score;
+
+    // 플레이어 이미지 변수
+    P1 = document.getElementById('P1');
+    P2 = document.getElementById('P2');
+    P1.style.boxShadow = '0px 0px 50px skyblue';
+
 }
 
 // 클릭 함수
 function clicked(obj){
     if (cntClick == 0){
         // 사진 뒤집기
-        let img = document.createElement('img');
-        img.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
-        img.style.width = '100px';
-        obj.append(img);
-
+        let img1 = document.createElement('img');
+        img1.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
+        img1.style.width = '100px';
+        obj.append(img1);
+        picked = obj; // 비교 카드 변수에 뽑은 카드 대입
+        // 클릭횟수 1 증가
         cntClick++;
         return 0;
+    }else if(cntClick == 1){
+
+        // 사진 뒤집기
+        let img2 = document.createElement('img');
+        img2.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
+        img2.style.width = '100px';
+        obj.append(img2);
+
+        cntClick=0;// 클릭 초기화
+
+        setTimeout(function(){
+
+            // 사진 체크하기
+            if (card[obj.id] == card[picked.id]){ // 맞추면
+                if (cntGame % 2 == 0){
+                    P1Score++;
+                    P1ScoreScreen.innerHTML = P1Score;
+                }else if(cntGame % 2 == 1){
+                    P2Score++;
+                    P2ScoreScreen.innerHTML = P2Score;
+                }
+                // 이미지 지우기
+                let img1 = picked.lastChild;
+                picked.removeChild(img1);
+                obj.removeChild(img2);
+                picked.style.backgroundColor = 'azure';
+                obj.style.backgroundColor = 'azure';
+
+                if (P1Score + P2Score == 15){
+                    if (P1Score > P2Score){
+                        alert("P1 승리!!!");
+                    }else if (P1Score < P2Score){
+                        alert("p2 승리!!!");
+                    }else {
+                        alert("무승부..");
+                    }
+                    for (let i = 0; i < 30; i++){
+                        let box = document.getElementById(i);
+                        box.style.backgroundColor = 'forestgreen';
+                    }
+                    init(); // 초기화
+                }
+
+            }else { //못맞추면
+
+                // 이미지 지우기
+                let img1 = picked.lastChild;
+                picked.removeChild(img1);
+                obj.removeChild(img2);
+
+                cntClick=0;// 클릭 초기화
+
+                if (mode==2){
+                    //  2인용이면 턴 넘기기
+                    cntGame++;
+                    // 플레이어 턴 표시
+                    if (cntGame % 2 == 0){
+                        P1.style.boxShadow = '0px 0px 50px skyblue';
+                        P2.style.boxShadow = 'none';
+                    }else {
+                        P2.style.boxShadow = '0px 0px 50px skyblue';
+                        P1.style.boxShadow = 'none';
+                    }
+                }else{ // 1인용이면
+                    ai(); // ai 공격
+                }            
+
+            }
+
+        }, 1000); // 1초 딜레이
     }
 }
+
+// function ai(){
+
+// }
