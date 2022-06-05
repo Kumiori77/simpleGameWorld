@@ -105,7 +105,10 @@ function clicked(obj){
         cntClick++;
         //return 0;
     }else if(cntClick == 1 && obj.style.backgroundColor == 'forestgreen'){ // 두번째 클릭
-
+        // 클릭한 거 또 클릭했는지 체크
+        if (picked == obj){
+            return 0;
+        }
         // 사진 뒤집기
         let img2 = document.createElement('img');
         img2.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
