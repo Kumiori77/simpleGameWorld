@@ -71,13 +71,30 @@ function init(){
     // 플레이어 이미지 변수
     P1 = document.getElementById('P1');
     P2 = document.getElementById('P2');
-    P1.style.boxShadow = '0px 0px 50px skyblue';
+    // 시작할 때  P1 부터 시작
+    P1.style.border = '2px solid blue';
+    P2.style.border = '0px'
 
+    // 이벤트 리스너 추가
+    for (let i = 0; i < 30; i++){ // 칸 다시 체우기
+        let box = document.getElementById(i);
+        box.addEventListener("mouseover", over);
+        box.addEventListener("mouseout", out);
+    }
+
+}
+
+// 호버 이벤트 함수
+function over(){
+    this.style.boxShadow = '0px 0px 10px forestgreen';
+}
+function out(){
+    this.style.boxShadow = 'none';
 }
 
 // 클릭 함수
 function clicked(obj){
-    if (cntClick == 0){
+    if (cntClick == 0 && obj.style.backgroundColor == 'forestgreen'){ // 첫번째 클릭
         // 사진 뒤집기
         let img1 = document.createElement('img');
         img1.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
@@ -86,8 +103,8 @@ function clicked(obj){
         picked = obj; // 비교 카드 변수에 뽑은 카드 대입
         // 클릭횟수 1 증가
         cntClick++;
-        return 0;
-    }else if(cntClick == 1){
+        //return 0;
+    }else if(cntClick == 1 && obj.style.backgroundColor == 'forestgreen'){ // 두번째 클릭
 
         // 사진 뒤집기
         let img2 = document.createElement('img');
@@ -95,7 +112,7 @@ function clicked(obj){
         img2.style.width = '100px';
         obj.append(img2);
 
-        cntClick=0;// 클릭 초기화
+        cntClick++;// 클릭 추가
 
         setTimeout(function(){
 
@@ -114,21 +131,27 @@ function clicked(obj){
                 obj.removeChild(img2);
                 picked.style.backgroundColor = 'azure';
                 obj.style.backgroundColor = 'azure';
+                // 이벤트 리스너 지우기
+                obj.removeEventListener("mouseover", over);
+                picked.removeEventListener("mouseover", over);
 
-                if (P1Score + P2Score == 15){
-                    if (P1Score > P2Score){
-                        alert("P1 승리!!!");
-                    }else if (P1Score < P2Score){
-                        alert("p2 승리!!!");
-                    }else {
-                        alert("무승부..");
+                setTimeout( function(){
+                    if (P1Score + P2Score == 15){ // 게임 오버
+                        if (P1Score > P2Score){
+                            alert("P1 승리!!!");
+                        }else if (P1Score < P2Score){
+                            alert("p2 승리!!!");
+                        }else {
+                            alert("무승부..");
+                        }
+                        for (let i = 0; i < 30; i++){ // 칸 다시 체우기
+                            let box = document.getElementById(i);
+                            box.style.backgroundColor = 'forestgreen';
+                        }
+                        init(); // 초기화
                     }
-                    for (let i = 0; i < 30; i++){
-                        let box = document.getElementById(i);
-                        box.style.backgroundColor = 'forestgreen';
-                    }
-                    init(); // 초기화
-                }
+                }, 100);
+                
 
             }else { //못맞추면
 
@@ -137,26 +160,28 @@ function clicked(obj){
                 picked.removeChild(img1);
                 obj.removeChild(img2);
 
-                cntClick=0;// 클릭 초기화
-
                 if (mode==2){
                     //  2인용이면 턴 넘기기
                     cntGame++;
                     // 플레이어 턴 표시
                     if (cntGame % 2 == 0){
-                        P1.style.boxShadow = '0px 0px 50px skyblue';
-                        P2.style.boxShadow = 'none';
+                        P1.style.border = '2px solid blue';
+                        P2.style.border = '0px';
                     }else {
-                        P2.style.boxShadow = '0px 0px 50px skyblue';
-                        P1.style.boxShadow = 'none';
+                        P2.style.border = '2px solid red';
+                        P1.style.border = '0px'
                     }
                 }else{ // 1인용이면
                     ai(); // ai 공격
                 }            
 
             }
+            cntClick = 0;
 
-        }, 1000); // 1초 딜레이
+        }, 700); // 1초 딜레이
+
+    }else{
+        return 0;
     }
 }
 

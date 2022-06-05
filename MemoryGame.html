@@ -56,9 +56,9 @@
             height: 100px;
             background-color: forestgreen;
         }
-        #row div:hover{
+        /* #row div:hover{
             box-shadow: 0px 0px 20px skyblue;
-        }
+        } */
         #explainBox{
             position: absolute;
             width: 800px;
@@ -124,7 +124,8 @@
                 for (let y = 0; y < 5; y++){
                     document.write("<div id='row'>");
                     for (let x = 0; x < 6; x++){
-                        document.write("<div id='" + cnt1 + "' onclick='clicked(this)'></div>");
+                        document.write("<div id='" + cnt1 + "' onclick='clicked(this)'");
+                        document.write("style='background-color: forestgreen;''></div>");
                         cnt1++;
                     }
                     document.write("</div>");
