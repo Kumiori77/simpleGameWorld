@@ -178,7 +178,7 @@ function clicked(obj){
             }
             cntClick = 0;
 
-        }, 700); // 1초 딜레이
+        }, 1000); // 1초 딜레이
 
     }else{
         return 0;
