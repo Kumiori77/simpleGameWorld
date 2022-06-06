@@ -28,6 +28,11 @@ let picked; // 카드 체크 변수
 let P1;
 let P2;
 
+// ai 변수
+let imgData = []; // 선택한 이미지 데이터
+
+
+
 // 함수 선언
 
 // 모드 설정 함수
@@ -82,6 +87,9 @@ function init(){
         box.addEventListener("mouseout", out);
     }
 
+    // ai 변수 초기화
+    imgData = []; // 선택한 이미지 데이터
+
 }
 
 // 호버 이벤트 함수
@@ -94,7 +102,15 @@ function out(){
 
 // 클릭 함수
 function clicked(obj){
-    if (cntClick == 0 && obj.style.backgroundColor == 'forestgreen'){ // 첫번째 클릭
+    if (cntClick<2&&obj.style.backgroundColor=='forestgreen'&&(mode==2||(mode==1&&cntGame%2==0))){
+        play(obj);
+    }
+}
+
+
+// 게임 실행 함수
+function play(obj){
+    if (cntClick==0){ // 첫번째 클릭
         // 사진 뒤집기
         let img1 = document.createElement('img');
         img1.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
@@ -103,8 +119,18 @@ function clicked(obj){
         picked = obj; // 비교 카드 변수에 뽑은 카드 대입
         // 클릭횟수 1 증가
         cntClick++;
-        //return 0;
-    }else if(cntClick == 1 && obj.style.backgroundColor == 'forestgreen'){ // 두번째 클릭
+
+        // ai 정보 수집
+        if (mode == 1){
+            for(let i = 0; i < imgData.length; i++){
+                if (imgData[i] == obj.id){
+                    break;
+                }
+            }
+            imgData.push(obj.id);
+        }
+
+    }else if(cntClick==1){ // 두번째 클릭
         // 클릭한 거 또 클릭했는지 체크
         if (picked == obj){
             return 0;
@@ -115,10 +141,20 @@ function clicked(obj){
         img2.style.width = '100px';
         obj.append(img2);
 
+        // ai 정보 수집
+        if (mode == 1){
+            for(let i = 0; i < imgData.length; i++){
+                if (imgData[i] == obj.id){
+                    break;
+                }
+            }
+            imgData.push(obj.id);
+        }
+
         cntClick++;// 클릭 추가
 
         setTimeout(function(){
-
+            cntClick = 0;
             // 사진 체크하기
             if (card[obj.id] == card[picked.id]){ // 맞추면
                 if (cntGame % 2 == 0){
@@ -138,22 +174,37 @@ function clicked(obj){
                 obj.removeEventListener("mouseover", over);
                 picked.removeEventListener("mouseover", over);
 
+                // ai 데이터에서 삭제하기
+                if (mode==1){
+                    for (let i = 0; i < imgData.length; i++){
+                        if (imgData[i] == obj.id || imgData[i] == picked.id){
+                            imgData.splice(i, 1);
+                            i--;
+                        }
+                    }
+                }
+
                 setTimeout( function(){
                     if (P1Score + P2Score == 15){ // 게임 오버
                         if (P1Score > P2Score){
                             alert("P1 승리!!!");
                         }else if (P1Score < P2Score){
                             alert("p2 승리!!!");
-                        }else {
-                            alert("무승부..");
                         }
                         for (let i = 0; i < 30; i++){ // 칸 다시 체우기
                             let box = document.getElementById(i);
                             box.style.backgroundColor = 'forestgreen';
                         }
                         init(); // 초기화
-                    }
+                        return 0;
+                    }    
                 }, 100);
+
+                if(mode==1 && cntGame%2==1 && P1Score + P2Score < 15){
+                    setTimeout(function(){
+                        ai();
+                    }, 150)
+                }
                 
 
             }else { //못맞추면
@@ -163,31 +214,90 @@ function clicked(obj){
                 picked.removeChild(img1);
                 obj.removeChild(img2);
 
-                if (mode==2){
-                    //  2인용이면 턴 넘기기
-                    cntGame++;
-                    // 플레이어 턴 표시
-                    if (cntGame % 2 == 0){
-                        P1.style.border = '2px solid blue';
-                        P2.style.border = '0px';
-                    }else {
-                        P2.style.border = '2px solid red';
-                        P1.style.border = '0px'
+                
+                //  2인용이면 턴 넘기기
+                cntGame++;
+                // 플레이어 턴 표시
+                if (cntGame % 2 == 0){
+                    P1.style.border = '2px solid blue';
+                    P2.style.border = '0px';
+                }else {
+                    P2.style.border = '2px solid red';
+                    P1.style.border = '0px'
+                }
+                setTimeout( function(){
+                    if (mode == 1 && cntGame % 2 == 1){ // 1인용이고 ai 차례면
+                        ai(); // ai 공격
                     }
-                }else{ // 1인용이면
-                    ai(); // ai 공격
-                }            
+                }, 100);
+                            
 
             }
-            cntClick = 0;
 
-        }, 1000); // 1초 딜레이
+        }, 750); // 1초 딜레이
 
     }else{
         return 0;
     }
 }
 
-// function ai(){
+function ai(){
+    //cntClick = 2; // 클릭 방지
+    // ai 선택 변수
+    let aiPick1;
+    let aiPick2;
+    let find = false; // 답을 찾았는지 확인하는 변수
+    // 지금까지 나온 이미지 중에 같은 이미지가 있는지 찾기
+    for (let i = 0; i < imgData.length - 1; i++){
+        for (let j = i+1; j < imgData.length; j++){
+            if (!find && card[imgData[i]] == card[imgData[j]] && imgData[i]!= imgData[j]){
+                aiPick1 = imgData[i];
+                aiPick2 = imgData[j];
+                find = true;
+                break;
+            }
+            if (find){
+                break;
+            }
+        }
+        if (find){
+            break;
+        }
+    }
+        
 
-// }
+    if (!find){ // 못찾았을 때는 랜덤으로 입력하기
+        
+        
+        while (true){
+            aiPick1 = Math.floor(Math.random()*30);
+            let aiPickObj1 = document.getElementById(aiPick1);
+            if(aiPickObj1.style.backgroundColor == 'forestgreen'){
+                break;
+            }
+        }
+        let luckey = false;
+        // 랜덤으로 했는데 나왔었던게 나온 경우
+        for (let i = 0; i < imgData.length; i++){
+            if(card[aiPick1] == card[imgData[i]] && aiPick1 != imgData[i]){
+                aiPick2 = imgData[i];
+                luckey = true;
+            }
+        }
+
+        while(true && !luckey){
+            aiPick2 = Math.floor(Math.random()*30);
+            let aiPickObj2 = document.getElementById(aiPick2);
+            if (aiPick1 != aiPick2 && aiPickObj2.style.backgroundColor == 'forestgreen'){
+                break;
+            }
+        }
+    }
+
+    // ai 선택 입력하기
+    let aiPickObj1 = document.getElementById(aiPick1);
+    let aiPickObj2 = document.getElementById(aiPick2);
+    play(aiPickObj1);
+    setTimeout( function(){play(aiPickObj2)}, 750);
+
+}
