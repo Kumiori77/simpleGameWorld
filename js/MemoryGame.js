@@ -6,11 +6,17 @@ let card = []; // 카드 배열 변수
 let cnt = 0;
 for (let i = 0; i < 30; i++){
     card[i] = cnt;
-    if (i%2==1){
-
-        
+    if (i%2==1){     
         cnt++;
     }
+}
+
+let cardImg = []; // 카드 이미지 객체 배열
+let i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14; 
+cardImg = [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14];
+for (let i = 0; i < 15; i++){ // 카드 이미지 객체 미리 로드시켜놓기
+    cardImg[i] = new Image();
+    cardImg[i].src = 'imgs/MemoryGame/'+i+'.jpeg';
 }
 
 let cntClick; // 클릭 카운트
@@ -33,13 +39,10 @@ let imgData = []; // 선택한 이미지 데이터
 
 
 
-// 함수 선언
+// 함수 선언  //
 
 // 모드 설정 함수
-function clickP(obj){
-    // P2 이미지 변수
-    
-
+function clickP(obj){    
     if (obj.id == 'P1switch'){ // 1인 플레이
         // 이미지 설정
         P2.src = "imgs/MemoryGame/AI.png";
@@ -113,7 +116,7 @@ function play(obj){
     if (cntClick==0){ // 첫번째 클릭
         // 사진 뒤집기
         let img1 = document.createElement('img');
-        img1.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
+        img1.src = cardImg[card[obj.id]].src;
         img1.style.width = '100px';
         obj.append(img1);
         picked = obj; // 비교 카드 변수에 뽑은 카드 대입
@@ -137,7 +140,7 @@ function play(obj){
         }
         // 사진 뒤집기
         let img2 = document.createElement('img');
-        img2.src ='imgs/MemoryGame/'+card[obj.id]+'.jpeg';
+        img2.src = cardImg[card[obj.id]].src;
         img2.style.width = '100px';
         obj.append(img2);
 
