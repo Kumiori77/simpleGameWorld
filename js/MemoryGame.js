@@ -1,6 +1,7 @@
 // 전역 변수 선언
 
 let mode; //  모드 변수
+let level = 0; // 난이도 변수
 
 let card = []; // 카드 배열 변수
 let cnt = 0;
@@ -48,6 +49,8 @@ function clickP(obj){
         P2.src = "imgs/MemoryGame/AI.png";
         // 모드 설정
         mode = 1;
+        let levelBox = document.getElementById('levelBox');
+        levelBox.style.visibility = 'visible';
     }else if (obj.id == 'P2switch'){ // 2인 플레이
         // 이미지 설정
         P2.src = "imgs/MemoryGame/player2.png";
@@ -59,6 +62,27 @@ function clickP(obj){
     let section = document.getElementsByTagName('section');
     let explainBox = document.getElementById('explainBox');
     section[0].removeChild(explainBox);
+
+}
+
+// 난이도 설정 함수
+function clickLevel(obj){
+    if (obj.id == 'easy'){
+        level = 4; // 10개 까지만 기억하기
+    }
+    else if (obj.id == 'nomal'){
+        level = 7; // 20개 까지만 기억하기
+    }
+    else if (obj.id == 'hard'){
+        level = 30; // 30개 까지만 기억하기
+    }
+
+    // 난이도 설정 창 지우기
+    if (level != 0){
+        let section = document.getElementsByTagName('section');
+        let levelBox = document.getElementById('levelBox');
+        section[0].removeChild(levelBox);
+    }
 }
 
 // 게임 초기화 함수
@@ -125,12 +149,22 @@ function play(obj){
 
         // ai 정보 수집
         if (mode == 1){
+            let find = 0; // 데이터베이스에 겹치는 데이터가 있는지 검출
             for(let i = 0; i < imgData.length; i++){
                 if (imgData[i] == obj.id){
+                    find = 1;
                     break;
                 }
             }
-            imgData.push(obj.id);
+            if (find == 0){
+                imgData.push(obj.id); // 데이터베이스에 클릭한 객체 정보가 없으면 추가
+            }
+
+            // 난이도에 따라 기억력 조절
+            if (imgData.length > level){
+                imgData.shift(); // 배열 맨 앞의 요소 삭제
+                //alert(imgData);
+            }
         }
 
     }else if(cntClick==1){ // 두번째 클릭
@@ -146,12 +180,22 @@ function play(obj){
 
         // ai 정보 수집
         if (mode == 1){
+            let find = 0; // 데이터베이스에 겹치는 데이터가 있는지 검출
             for(let i = 0; i < imgData.length; i++){
                 if (imgData[i] == obj.id){
+                    find = 1;
                     break;
                 }
             }
-            imgData.push(obj.id);
+            if (find == 0){
+                imgData.push(obj.id); // 데이터베이스에 클릭한 객체 정보가 없으면 추가
+            }
+            
+            // 난이도에 따라 기억력 조절
+            if (imgData.length > level){
+                imgData.shift(); // 배열 맨 앞의 요소 삭제
+                //alert(imgData);
+            }
         }
 
         cntClick++;// 클릭 추가
