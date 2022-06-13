@@ -110,6 +110,11 @@
                 answer.focus();
                 return;
             }
+            if (n1 == n2 || n1 == n3 || n2 == n3){
+                alert("서로 다른 숫자들을 입력하시오");
+                answer.focus();
+                return;
+            }
             // 체크 초기화
             s = 0;
             b = 0;
