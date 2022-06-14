@@ -44,6 +44,7 @@
             height: 50px;
             border: 1px solid black;
             background-color: forestgreen;
+            font-size: 30px;
         }
         td:hover{
             border: 2px solid black;
@@ -86,7 +87,7 @@
                     for (let i = 0; i < 9; i++){
                         document.write("<tr>");
                         for (let j = 0; j < 9; j++){
-                            document.write("<td onclick='clicked(this)'></td>");
+                            document.write("<td onmousedown='clicked(event, this)' id='" + (i*9+j) +"'></td>");
                         }
                         document.write("</tr>");
                     }
