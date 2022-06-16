@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MineSweeper</title>
+    <title>Memory Game</title>
 
     <style>
 
@@ -22,9 +22,9 @@
             font-size: 30px;
         }
         #billBoard{
-            width: 500px;
+            width: 800px;
             height: 80px;
-            padding: 0%;
+            padding-bottom: 30px;
             margin: 0%;
             margin-bottom: 10px;
             display: flex;
@@ -34,35 +34,29 @@
         }
         #billBoard div{
             font-size: 50px;
-            width: 100px;
-            border: 3px solid black;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-            align-items: center;
-
         }
+
         table{
             border: 1px solid black;
             border-collapse: collapse;
         }
         td{
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border: 1px solid black;
-            background-color:forestgreen;
+            background-color:lavender;
             font-size: 30px;
         }
-        /* td:hover{
-            border: 2px solid black;
-        } */
-
+        #empty{
+            height: 100px;
+            width: 10px;
+        }
 
     </style>
 
-<script src="js/lib.js"></script>
+    <script src="js/lib.js"></script>
 
-<script src="js/MineSweeper.js"></script>
+    <script src="js/Othelo.js"></script>
 
 </head>
 
@@ -81,20 +75,23 @@
 
     <section onmouseover="menuOut()">
         
-        <h1>Mine Sweeper</h1>
+        <h1>Othelo</h1>
         
         <div id="billBoard">
-            <div id="flag">10</div>
-            <div id="timer">00</div>
+            <img src="imgs/Othelo/player1.png" id="P1" width="80px">
+            <div id="P1Score">0</div>
+            <div>:</div>
+            <div id="P2Score">0</div>
+            <img src="imgs/Othelo/player2.png" id="P2" width="80px">
         </div>
-
-        <div id="playground">
+        
+        <div id="playGround">
             <script>
                 document.write("<table>");
-                    for (let i = 0; i < 9; i++){
+                    for (let i = 0; i < 8; i++){
                         document.write("<tr>");
-                        for (let j = 0; j < 9; j++){
-                            document.write("<td onmousedown='clicked(event, this)' id='" + (i*9+j));
+                        for (let j = 0; j < 8; j++){
+                            document.write("<td onmousedown='clicked(this)' id='" + (i*8+j));
                             document.write("' ></td>");
                         }
                         document.write("</tr>");
@@ -102,6 +99,25 @@
                     document.write("</table>")
             </script>
         </div>
+
+        <div id="empty"></div>
+        <!-- 게임 설명 -->
+        <!-- <div id="explainBox">
+        <img src="imgs/MemoryGame/explain.png" id="explain">
+        <img src="imgs/MemoryGame/1Pswitch.png" id="P1switch" onclick="clickP(this)">
+        <img src="imgs/MemoryGame/2Pswitcn.png" id="P2switch" onclick="clickP(this)">
+        </div>
+
+        <div id="levelBox" style="visibility: hidden;">
+            <img src="imgs/MemoryGame/level.png" id="level">
+            <img src="imgs/MemoryGame/easy.png" id="easy" onclick="clickLevel(this)">
+            <img src="imgs/MemoryGame/nomal.png" id="nomal" onclick="clickLevel(this)">
+            <img src="imgs/MemoryGame/hard.png" id="hard" onclick="clickLevel(this)">
+        </div> -->
+
+    </section>
+
     
+
 </body>
 </html>

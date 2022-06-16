@@ -239,7 +239,6 @@ function timer(){   // 타이머 함수
     timerID = setTimeout(timer, 100); // 0.01 초 뒤에 제 호출    
     
 }
-
 function timePrint(time) {  // 시간 정리 함수
     let sec = parseInt(time / 10);  // 초
     if (sec < 10){ // 항상 2자리로 표시
