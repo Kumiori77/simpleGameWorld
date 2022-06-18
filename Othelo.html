@@ -51,6 +51,31 @@
             height: 100px;
             width: 10px;
         }
+        #explainBox{
+            position: absolute;
+            width: 800px;
+            height: 550px;
+        }
+        #explain{
+            position: absolute;
+            top:-120px;
+        }
+        #P1switch{
+            position: absolute;
+            top: 335px;
+            left: 170px;
+        }
+        #P1switch:hover{
+            box-shadow: 0px 0px 30px skyblue;
+        }
+        #P2switch{
+            position: absolute;
+            top: 335px;
+            left: 480px;
+        }
+        #P2switch:hover{
+            box-shadow: 0px 0px 30px skyblue;
+        }
 
     </style>
 
@@ -92,7 +117,7 @@
                         document.write("<tr>");
                         for (let j = 0; j < 8; j++){
                             document.write("<td onmousedown='clicked(this)' id='" + (i*8+j));
-                            document.write("' ></td>");
+                            document.write("' onmouseover='over(this)' onmouseout='out(this)'></td>");
                         }
                         document.write("</tr>");
                     }
@@ -102,18 +127,11 @@
 
         <div id="empty"></div>
         <!-- 게임 설명 -->
-        <!-- <div id="explainBox">
-        <img src="imgs/MemoryGame/explain.png" id="explain">
-        <img src="imgs/MemoryGame/1Pswitch.png" id="P1switch" onclick="clickP(this)">
-        <img src="imgs/MemoryGame/2Pswitcn.png" id="P2switch" onclick="clickP(this)">
+        <div id="explainBox">
+        <img src="imgs/Othelo/explain.png" id="explain">
+        <img src="imgs/Othelo/1Pswitch.png" id="P1switch" onclick="clickP(this)">
+        <img src="imgs/Othelo/2Pswitcn.png" id="P2switch" onclick="clickP(this)">
         </div>
-
-        <div id="levelBox" style="visibility: hidden;">
-            <img src="imgs/MemoryGame/level.png" id="level">
-            <img src="imgs/MemoryGame/easy.png" id="easy" onclick="clickLevel(this)">
-            <img src="imgs/MemoryGame/nomal.png" id="nomal" onclick="clickLevel(this)">
-            <img src="imgs/MemoryGame/hard.png" id="hard" onclick="clickLevel(this)">
-        </div> -->
 
     </section>
 

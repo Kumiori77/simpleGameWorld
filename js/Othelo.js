@@ -19,6 +19,9 @@ let P2;
 let maybeChange;    // 바꿀지 확인중인 박스들
 let change;         // 바꾸는게 확정된 박스들
 
+// 게임 모드 변수
+let mode;
+
 // 함수
 function init(){    // 초기화 함수
     tds = [];
@@ -51,7 +54,9 @@ function init(){    // 초기화 함수
     // 플레이어 변수 초기화
     P1 = document.getElementById('P1');
     P2 = document.getElementById('P2');
-    P1.style.border = '2px solid black'; // 플레이어 턴 표시
+    // 플레이어 턴 표시
+    P1.style.border = '2px solid black'; 
+    P2.style.border = '0px solid black';
 
     // 스코어 표시
     for (let i = 0; i < 64; i++){
@@ -94,7 +99,8 @@ function clicked(obj){  // 클릭 함수
     }
     
     // 스코어 표시
-    P1Score = 0, P2Score = 0;
+    P1Score = 0, P2Score = 0;   // 점수 초기화
+    let checkDone = 0 // 다 했는지 확인하는 변수
     for (let i = 0; i < 64; i++){
         if(tds[i].style.backgroundColor == 'red'){
             P1Score++;
@@ -102,70 +108,80 @@ function clicked(obj){  // 클릭 함수
         else if (tds[i].style.backgroundColor == 'blue'){
             P2Score++;
         }
+        else if(tds[i].style.backgroundColor == 'lavender'){
+            checkDone++;    // 빈 박스 카운트
+        }
     }
     P1ScoreScreen.innerHTML = P1Score;
     P2ScoreScreen.innerHTML = P2Score;
 
-    //플레이어 턴 표시
-    if (turn%2==1){
-        P1.style.border = '0px solid black';
-        P2.style.border = '2px solid black';
-    }
-    else {
-        P1.style.border = '2px solid black';
-        P2.style.border = '0px solid black';
-    }
-
-
     // 게임 오버 처리하기
-    
-    // 모두 뒤집으면 게임 종료
-    let checkDone = 0 // 다 했는지 확인하는 변수
-    for (let i = 0; i < 64; i++){
-        if(tds[i].style.backgroundColor == 'lavender'){
-            checkDone++;    // 빈 박스 카운트
+    setTimeout(function(){
+        // 한쪽이 전멸하면 게임 종료
+        if (P1Score == 0 || P2Score == 0){
+            gameover(); // 게임 종료
+            return;
         }
-    }
-    if (checkDone == 0){    // 빈 박스가 없는 경우
-        gameover(); // 게임 종료
-    }
-
-    // 놓을 곳이 없으면 턴을 넘기고 두번 넘어가면 게임 종료
-    let passCheck = false; // 패스 여부 확인
-    turn++; // 턴이 넘어갔다고 가정
-    for (let i = 0; i < 64; i++){   // 남은 경우 확인해서 놓을 곳 있나 확인
-        if(tds[i].style.backgroundColor == 'lavender'){ // 빈곳을 찾으면 
-            check(tds[i]); // 탐색하기
-            if (change.length > 0){ // 바꿀 수 있는 블럭이 있으면
-                passCheck = true;
-            }
+        // 모두 뒤집으면 게임 종료
+        else if (checkDone == 0){    // 빈 박스가 없는 경우
+            gameover(); // 게임 종료
+            return;
         }
-    }
-    if (!passCheck){    // 바꿀 수 있는 블럭이 없는 경우
-        alert("바꿀 수 있는 블럭이 없어서 턴을 넘깁니다."); // 알림
-        turn++; // 턴 넘기기
-        // 한 번 더 돌려보기
-        for (let i = 0; i < 64; i++){   // 남은 경우 확인해서 놓을 곳 있나 확인
-            if(tds[i].style.backgroundColor != 'lavender'){ // 빈곳을 찾으면 
-                check(tds[i]); // 탐색하기
-                if (change.length > 0){ // 바꿀 수 있는 블럭이 있으
-                    passCheck = true;
+        else{
+            // 놓을 곳이 없으면 턴을 넘기고 두번 넘어가면 게임 종료
+            let passCheck = false; // 패스 여부 확인
+            turn++; // 턴이 넘어갔다고 가정
+            for (let i = 0; i < 64; i++){   // 남은 경우 확인해서 놓을 곳 있나 확인
+                if(tds[i].style.backgroundColor == 'lavender'){ // 빈곳을 찾으면 
+                    check(tds[i]); // 탐색하기
+                    if (change.length > 0){ // 바꿀 수 있는 블럭이 있으면
+                        passCheck = true;
+                    }
                 }
             }
+            if (!passCheck){    // 바꿀 수 있는 블럭이 없는 경우
+                alert("바꿀 수 있는 블럭이 없어서 턴을 넘깁니다."); // 알림
+                turn++; // 턴 넘기기
+                // 한 번 더 돌려보기
+                for (let i = 0; i < 64; i++){   // 남은 경우 확인해서 놓을 곳 있나 확인
+                    if(tds[i].style.backgroundColor != 'lavender'){ // 빈곳을 찾으면 
+                        check(tds[i]); // 탐색하기
+                        if (change.length > 0){ // 바꿀 수 있는 블럭이 있으
+                            passCheck = true;
+                        }
+                    }
+                }
+                if (!passCheck){    // 또 바꿀 수 없는 경우
+                    alert("두 번 연속 바꿀 수 있는 블럭이 없어서 게임을 종료합니다.");
+                    gameover(); // 게임 오버
+                    return;
+                }
+                else {  //  바꿀 수 있는 경우
+                    turn--;
+                }
+            }
+            else { // 바꿀 박스가 있는 경우
+                turn--; // 턴 변수 원위치
+            }
         }
-        if (!passCheck){    // 또 바꿀 수 없는 경우
-            alert("두 번 연속 바꿀 수 있는 블럭이 없어서 게임을 종료합니다.");
-            gameover(); // 게임 오버
-            return;
+        //플레이어 턴 표시
+        if (turn%2==1){
+            P1.style.border = '0px solid black';
+            P2.style.border = '2px solid black';
         }
-        else {  //  바꿀 수 있는 경우
-            return;
+        else {
+            P1.style.border = '2px solid black';
+            P2.style.border = '0px solid black';
         }
-    }
-    else { // 바꿀 박스가 있는 경우
-        turn--; // 턴 변수 원위치
-    }
 
+        // 1인 모드인 경우 ai 공격 개시
+        if(mode == 1 && turn%2==1){
+            setTimeout(function(){
+                ai();   //  ai  공격 
+            }, 700)
+        }
+
+    },50)
 }
 
 function check(obj){    // 체크 함수
@@ -232,8 +248,7 @@ function check(obj){    // 체크 함수
                 }
             }
         }
-    }
-
+    }  
     return;
 }
 
@@ -251,4 +266,58 @@ function gameover(){    // 게임 종료 함수
         alert(msg); //  게임 결과 출력
         init();  // 게임 초기화
     },100);
+}
+
+// over & out 함수
+function over(obj){ 
+    if (obj.style.backgroundColor == 'lavender'){
+        obj.style.border = '2px solid black';
+    }
+}
+function out(obj){
+    obj.style.border = '1px solid black'
+}
+
+// 게임 모드 선택 함수
+function clickP(obj){
+    if (obj.id == 'P1switch'){ // 1인 플레이
+        // 이미지 설정
+        P2.src = "imgs/Othelo/AI.png";
+        // 모드 설정
+        mode = 1;
+    }else if (obj.id == 'P2switch'){ // 2인 플레이
+        // 이미지 설정
+        P2.src = "imgs/Othelo/player2.png";
+        // 모드 설정
+        mode = 2;
+    }
+    
+    // 설명창 삭제
+    let section = document.getElementsByTagName('section');
+    let explainBox = document.getElementById('explainBox');
+    section[0].removeChild(explainBox);
+}
+
+// AI 함수
+function ai(){
+    let scoreList = []; // 최고 득점 할 수 있는 위치
+    let maxscore = 0;   // 최고 득점 스토어
+    turn++; // 턴 1 증가
+    for (let i = 0; i < 64; i++){   // 모든 경우의수 체크
+        if (tds[i].style.backgroundColor == 'lavender'){ 
+            check(tds[i]);  //  빈 칸이면 탐색
+            if (change.length > maxscore){  // 기존보다 더 많은 점수를 받을 수 있는 경우
+                scoreList = []; // 리스트 초기화
+                scoreList.push(i);  // 리스트에 추가
+                maxscore = change.length; // 최고 득점 갱신
+            }
+            else if(change.length != 0 && change.length == maxscore){ // 기존 점수와 같은 점수를 받을 수 있는 경우
+                scoreList.push(i); // 리스트에 추가
+            }
+        }
+    }
+    // 랜점으로 클릭할 곳 선택하기
+    let choice = Math.floor(Math.random()*(scoreList.length));
+    turn--; // 턴 원위치
+    clicked(tds[scoreList[choice]]); // 랜덤으로 선택한 블럭 클릭
 }
