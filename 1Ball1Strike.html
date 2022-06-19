@@ -57,9 +57,6 @@
 
     <script>
         let cnt = 1; // 도전 횟수
-        // let cntScreen = document.getElementById('cnt');
-        // cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!" 
-
 
         let result // 결과 표시
         let screen = document.getElementById('screen'); // 결과 표시하는 창
@@ -178,7 +175,7 @@
 
 </head>
 
-<body onload="init()">
+<body onload="init()" onkeydown="enter(event)">
     
     <header>
         <div id="title"><a href="index.html">Simple Game World</a></div>
@@ -197,7 +194,6 @@
             let msg = "게임 설명\n\n";
             msg += "1. 랜덤으로 생성된 3개의 숫자를 맞추는 게임입니다.\n";
             msg += "2. 숫자를 입력한 후 확인 버튼을 클릭합니다.\n";
-            msg += "(엔터키를 누르면 초기화됨)\n";
             msg += "3. 숫자만 맞으면 Ball, 위치도 맞으면 Strike로 표시됩니다.\n";
             msg += "4. 랜덤으로 생성된 3개의 숫자를 위치까지 모두 맞추면 성공합니다.";
             alert(msg);
@@ -207,9 +203,10 @@
         <h1>1Ball 1Strike</h1>
         <h3 id="cnt">3자리 숫자를 맞춰 보세요!!</h3>
 
-        <form>
+        <form onsubmit="return false">
             <div>
             <input id='answer' type="text" maxlength="3" size="5">
+            <input type="hidden" >
             <input id="button" type="reset" value="완료" onclick="check()">
             </div>
 

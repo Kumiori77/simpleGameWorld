@@ -10,6 +10,39 @@
 
         @import url(style.css);
 
+        img{
+            width: 350px;
+            height: 350px;
+        }
+        img:hover{
+            box-shadow: 0px 0px 10px skyblue;
+            
+        }
+        section{
+            display :flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        section h1{
+            font-size: 30px;
+        }
+        section div{
+            width: 900px;
+            display :flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+        figure{
+            font-size: 20px;
+            display :flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
     </style>
 
     <script src="js/lib.js"></script>
@@ -30,7 +63,33 @@
     </header>
 
     <section onmouseover="menuOut()">
-        hello world
+        <h1>Games</h1>
+
+        <div>
+            <figure>
+                <figcaption>1Ball1Strike</figcaption>
+                <a href="1Ball1Strike.html"><img src="imgs/1Ball1Strike/1ball1strikeLogo.jpg"></a>
+            </figure>
+            <figure>
+                <figcaption>MemoryGame</figcaption>
+                <a href="MemoryGame.html"><img src="imgs/MemoryGame/memorygameLogo.png"></a>
+            </figure> 
+        </div>
+
+        <div style="height: 50px;"></div>
+
+        <div>
+        <figure>
+            <figcaption>MineSweeper</figcaption>
+            <a href="MineSweeper.html"><img src="imgs/MineSweeper/minesweeperLogo.png"></a>
+        </figure>
+        <figure>
+            <figcaption>Othelo</figcaption>
+            <a href="Othelo.html"><img src="imgs/Othelo/otheloLogo.png"></a>
+        </figure>
+        </div>
+
+        <div style="height: 50px;"></div>
     </section>
 
 </body>
