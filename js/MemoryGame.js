@@ -62,7 +62,6 @@ function clickP(obj){
     let section = document.getElementsByTagName('section');
     let explainBox = document.getElementById('explainBox');
     section[0].removeChild(explainBox);
-
 }
 
 // 난이도 설정 함수
@@ -261,7 +260,6 @@ function play(obj){
                 picked.removeChild(img1);
                 obj.removeChild(img2);
 
-                
                 //  2인용이면 턴 넘기기
                 cntGame++;
                 // 플레이어 턴 표시
@@ -278,7 +276,6 @@ function play(obj){
                     }
                 }, 100);
                             
-
             }
 
         }, 750); // 1초 딜레이
@@ -312,9 +309,7 @@ function ai(){
         }
     }
         
-
     if (!find){ // 못찾았을 때는 랜덤으로 입력하기
-        
         
         while (true){
             aiPick1 = Math.floor(Math.random()*30);
@@ -332,7 +327,7 @@ function ai(){
             }
         }
 
-        while(true && !luckey){
+        while(!luckey){
             aiPick2 = Math.floor(Math.random()*30);
             let aiPickObj2 = document.getElementById(aiPick2);
             if (aiPick1 != aiPick2 && aiPickObj2.style.backgroundColor == 'forestgreen'){

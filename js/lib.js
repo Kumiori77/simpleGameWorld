@@ -1,9 +1,7 @@
-// 함수들 모아놓기
-
 // menu()
 //메뉴 클릭하면 세부 내용 표시하기
-//메뉴의 세부 내용 배열
 
+//메뉴의 세부 내용 배열
 let play1 = ["1Ball1Strike", "MemoryGame", "Othelo", "MineSweeper"];
 let play2 = ["MemoryGame", "Othelo"];
 // 메뉴 리스트 DOM 객체 생성
