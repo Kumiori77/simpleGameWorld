@@ -17,6 +17,7 @@ let time; // 시간 변수
 let timerscreen; // 타이머 스크린에 표시
 let timerID;   // 타이머 아이디
 
+
 // 함수
 
 function init(){ // 초기화 함수
@@ -47,7 +48,6 @@ function init(){ // 초기화 함수
             break;
         }
     }
-    
     // 박스 배열 생성
     tds = document.getElementsByTagName('td');
     // 전 게임 지뢰 초기화
@@ -228,22 +228,19 @@ function check(obj){
             }
             check(tds[search]);
         }
-    }
-    
+    }  
 }
 
 function timer(){   // 타이머 함수
     time++;
     timerscreen.innerHTML = timePrint(time);
     
-    timerID = setTimeout(timer, 100); // 0.01 초 뒤에 제 호출    
-    
+    timerID = setTimeout(timer, 100); // 0.01 초 뒤에 제 호출       
 }
 function timePrint(time) {  // 시간 정리 함수
     let sec = parseInt(time / 10);  // 초
     if (sec < 10){ // 항상 2자리로 표시
         sec = "0" + String(sec); 
     }
-    let string = String(sec);
-    return string; // 정리된 시간 출력
+    return sec; // 정리된 시간 출력
 }

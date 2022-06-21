@@ -22,6 +22,9 @@ let change;         // 바꾸는게 확정된 박스들
 // 게임 모드 변수
 let mode;
 
+// ai 공격중 나타내는 변수
+let aiturn; 
+
 // 함수
 function init(){    // 초기화 함수
     tds = [];
@@ -47,10 +50,6 @@ function init(){    // 초기화 함수
     P1ScoreScreen = document.getElementById('P1Score');
     P2ScoreScreen = document.getElementById('P2Score');
 
-    // 바꿀 박스 리스트 초기화
-    maybeChange = [];
-    change = [];
-
     // 플레이어 변수 초기화
     P1 = document.getElementById('P1');
     P2 = document.getElementById('P2');
@@ -70,12 +69,19 @@ function init(){    // 초기화 함수
     P1ScoreScreen.innerHTML = P1Score;
     P2ScoreScreen.innerHTML = P2Score;
 
+    // ai 공격중 나태내는 변수 초기화
+    aiturn = false
 }
 
 function clicked(obj){  // 클릭 함수
+
+    if (aiturn){
+        return; // ai가 공격중일 때는 마우스 클릭 못하게 하기
+    }
     if (obj.style.backgroundColor != 'lavender'){   // 이미 선택된 박스를 클릭한 경우 패스
         return;
     }
+
     turn++; // 턴 1 증가
     check(obj); // 점수가 있나 체크
 
@@ -144,7 +150,7 @@ function clicked(obj){  // 클릭 함수
                 turn++; // 턴 넘기기
                 // 한 번 더 돌려보기
                 for (let i = 0; i < 64; i++){   // 남은 경우 확인해서 놓을 곳 있나 확인
-                    if(tds[i].style.backgroundColor != 'lavender'){ // 빈곳을 찾으면 
+                    if(tds[i].style.backgroundColor == 'lavender'){ // 빈곳을 찾으면 
                         check(tds[i]); // 탐색하기
                         if (change.length > 0){ // 바꿀 수 있는 블럭이 있으
                             passCheck = true;
@@ -176,12 +182,14 @@ function clicked(obj){  // 클릭 함수
 
         // 1인 모드인 경우 ai 공격 개시
         if(mode == 1 && turn%2==1){
+            aiturn = true;  // ai 공격중 선언
             setTimeout(function(){
-                ai();   //  ai  공격 
-            }, 700)
+                aiturn = false;
+                ai();   // ai 공격
+            }, 700);
         }
 
-    },50)
+    },10)
 }
 
 function check(obj){    // 체크 함수
@@ -205,7 +213,6 @@ function check(obj){    // 체크 함수
         }
 
         search += direction[i]; //체크할 박스
-        //alert(search);
         //진행 방향으로 자신과 다른 색의 블록들이 있는지 체크
         if ((tds[search].style.backgroundColor=='red'&&turn%2==0)||(tds[search].style.backgroundColor=='blue'&& turn%2==1)){
             // 임시 배열에 저장
@@ -248,7 +255,7 @@ function check(obj){    // 체크 함수
                 }
             }
         }
-    }  
+    }
     return;
 }
 

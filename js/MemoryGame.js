@@ -67,10 +67,10 @@ function clickP(obj){
 // 난이도 설정 함수
 function clickLevel(obj){
     if (obj.id == 'easy'){
-        level = 4; // 10개 까지만 기억하기
+        level = 4; // 4개 까지만 기억하기
     }
     else if (obj.id == 'nomal'){
-        level = 7; // 20개 까지만 기억하기
+        level = 7; // 7개 까지만 기억하기
     }
     else if (obj.id == 'hard'){
         level = 30; // 30개 까지만 기억하기
@@ -106,16 +106,16 @@ function init(){
     P1.style.border = '2px solid blue';
     P2.style.border = '0px'
 
-    // 이벤트 리스너 추가
-    for (let i = 0; i < 30; i++){ // 칸 다시 체우기
+    // 이벤트 리스너 추가 & 칸 다시 체우기
+    for (let i = 0; i < 30; i++){  
         let box = document.getElementById(i);
+        box.style.backgroundColor = 'forestgreen';
         box.addEventListener("mouseover", over);
         box.addEventListener("mouseout", out);
     }
 
     // ai 변수 초기화
     imgData = []; // 선택한 이미지 데이터
-
 }
 
 // 호버 이벤트 함수
@@ -162,7 +162,6 @@ function play(obj){
             // 난이도에 따라 기억력 조절
             if (imgData.length > level){
                 imgData.shift(); // 배열 맨 앞의 요소 삭제
-                //alert(imgData);
             }
         }
 
@@ -203,6 +202,7 @@ function play(obj){
             cntClick = 0;
             // 사진 체크하기
             if (card[obj.id] == card[picked.id]){ // 맞추면
+                // 누구 차례인지에 따라 다르게 점수 증가
                 if (cntGame % 2 == 0){
                     P1Score++;
                     P1ScoreScreen.innerHTML = P1Score;
@@ -237,10 +237,6 @@ function play(obj){
                         }else if (P1Score < P2Score){
                             alert("p2 승리!!!");
                         }
-                        for (let i = 0; i < 30; i++){ // 칸 다시 체우기
-                            let box = document.getElementById(i);
-                            box.style.backgroundColor = 'forestgreen';
-                        }
                         init(); // 초기화
                         return 0;
                     }    
@@ -251,16 +247,14 @@ function play(obj){
                         ai();
                     }, 150)
                 }
-                
 
             }else { //못맞추면
-
                 // 이미지 지우기
                 let img1 = picked.lastChild;
                 picked.removeChild(img1);
                 obj.removeChild(img2);
 
-                //  2인용이면 턴 넘기기
+                // 턴 넘기기
                 cntGame++;
                 // 플레이어 턴 표시
                 if (cntGame % 2 == 0){
@@ -274,19 +268,16 @@ function play(obj){
                     if (mode == 1 && cntGame % 2 == 1){ // 1인용이고 ai 차례면
                         ai(); // ai 공격
                     }
-                }, 100);
-                            
+                }, 100);               
             }
+        }, 750); // 딜레이
 
-        }, 750); // 1초 딜레이
-
-    }else{
+    }else{  // 두번 클릭이 완료된 이후에 또 클릭하면 실행 안되게 하기
         return 0;
     }
 }
 
 function ai(){
-    //cntClick = 2; // 클릭 방지
     // ai 선택 변수
     let aiPick1;
     let aiPick2;
@@ -311,7 +302,7 @@ function ai(){
         
     if (!find){ // 못찾았을 때는 랜덤으로 입력하기
         
-        while (true){
+        while (true){   // 첫번 째 클릭할 카드 고르기
             aiPick1 = Math.floor(Math.random()*30);
             let aiPickObj1 = document.getElementById(aiPick1);
             if(aiPickObj1.style.backgroundColor == 'forestgreen'){
@@ -327,7 +318,7 @@ function ai(){
             }
         }
 
-        while(!luckey){
+        while(!luckey){    // 나온게 없을경우 다시 랜덤으로 두번 째 클릭할 카드 고르기
             aiPick2 = Math.floor(Math.random()*30);
             let aiPickObj2 = document.getElementById(aiPick2);
             if (aiPick1 != aiPick2 && aiPickObj2.style.backgroundColor == 'forestgreen'){
@@ -341,5 +332,4 @@ function ai(){
     let aiPickObj2 = document.getElementById(aiPick2);
     play(aiPickObj1);
     setTimeout( function(){play(aiPickObj2)}, 750);
-
 }

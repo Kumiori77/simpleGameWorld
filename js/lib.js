@@ -45,6 +45,3 @@ function menuOut(){
         p2.removeChild(newUlP2);
     }  
 }
-
-
-

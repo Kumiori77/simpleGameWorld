@@ -58,9 +58,6 @@
         let right = [0, 0, 0]; // 정답 배열
         let s = 0, b = 0; // 볼, 스트라이크 카운트 변수
 
-        // 입력창
-        
-
         function init(){ // 정답 배열 초기화 함수
             right[0] = Math.floor(Math.random()*10); 
             while (true){
@@ -77,8 +74,21 @@
                     break
                 }
             }
+
+            // 스크린 지우기
+            for (let i = 0; i < cnt; i++){
+                    screen = document.getElementById('screen');
+                    let child = screen.lastChild;
+                    if (child != null){
+                        screen.removeChild(child);
+                    }
+                    
+            }
+ 
+            cnt = 1;
+            
             let cntScreen = document.getElementById('cnt');
-            cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!" 
+            cntScreen.innerHTML = "3자리 숫자를 맞춰 보세요!! " + cnt + "번째 도전!"; 
 
             // 입력창에 포커스
             let answer = document.getElementById('answer');
@@ -131,16 +141,10 @@
                 b++;
             }
 
-            if (s == 3){
+            if (s == 3){    // 정답처리
                 let text = "정답입니다!!!\n"
                 text += cnt + "번 만에 성공!!";
                 alert(text);
-                for (let i = 0; i < cnt; i++){
-                    screen = document.getElementById('screen');
-                    let child = screen.lastChild;
-                    screen.removeChild(child);
-                }
-                cnt = 1;
                 init();
                 return;
             }
@@ -170,7 +174,7 @@
 
 </head>
 
-<body onload="init()" onkeydown="enter(event)">
+<body onload="init()">
     
     <header>
         <div id="title"><a href="index.html">Simple Game World</a></div>
@@ -201,7 +205,6 @@
         <form onsubmit="return false">
             <div>
             <input id='answer' type="text" maxlength="3" size="5">
-            <input type="hidden" >
             <input id="button" type="reset" value="완료" onclick="check()">
             </div>
 
